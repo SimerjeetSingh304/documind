@@ -35,15 +35,13 @@ Here is a glimpse of the DocuMind interface in action:
 
 **1. Dashboard & Document Upload**  
 *(Showcasing the clean, glassmorphism UI and UploadThing integration)*  
-![Dashboard View](https://via.placeholder.com/800x450?text=Upload+Your+Dashboard+Screenshot+Here)  
-*Replace the above image by adding your screenshot to `/public/screenshots/dashboard.png` and updating this markdown link.*
+![Dashboard View](./public/screenshots/dashboard.png)
 
 <br>
 
 **2. Intelligent Chat Interface**  
 *(Demonstrating real-time AI streaming and document insight retrieval)*  
-![Chat Interface](https://via.placeholder.com/800x450?text=Upload+Your+Chat+Screenshot+Here)  
-*Replace the above image by adding your screenshot to `/public/screenshots/chat.png` and updating this markdown link.*
+![Chat Interface](./public/screenshots/chat.png)
 
 </div>
 
