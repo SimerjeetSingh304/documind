@@ -34,13 +34,20 @@ export function Sidebar() {
     <div className="fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col bg-[#0F0F14] border-r border-white/[0.06] text-foreground">
       
       {/* Logo */}
-      <div className="flex items-center gap-3 h-16 px-6 border-b border-white/[0.06]">
-        <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/15 ring-1 ring-violet-500/30">
-          <Bot className="w-4 h-4 text-violet-400" />
-          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-emerald-400 rounded-full border-2 border-[#0F0F14]" />
+      <Link 
+        href="/" 
+        className="flex items-center gap-3 h-16 px-6 border-b border-white/[0.06] hover:bg-white/[0.02] transition-colors cursor-pointer group"
+      >
+        <div className="relative flex items-center justify-center w-9 h-9 rounded-xl overflow-hidden ring-1 ring-violet-500/30 group-hover:ring-violet-500/50 transition-all duration-300">
+          <img 
+            src="/avatars/bot.png" 
+            alt="Logo" 
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+          />
+          <span className="absolute top-0.5 right-0.5 w-2 h-2 bg-emerald-400 rounded-full border-2 border-[#0F0F14] z-10 shadow-glow" />
         </div>
-        <span className="text-sm font-bold tracking-tight text-white">DocuMind</span>
-      </div>
+        <span className="text-sm font-black tracking-tight text-white group-hover:text-primary transition-colors duration-300">DocuMind</span>
+      </Link>
 
       {/* Nav */}
       <div className="flex-1 px-3 py-5 space-y-0.5">
