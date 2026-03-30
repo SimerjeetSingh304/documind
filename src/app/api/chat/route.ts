@@ -15,6 +15,16 @@ export async function POST(req: Request) {
 
     const { messages, documentId } = await req.json();
 
+    // Ensure user exists in our DB to prevent relation filter issues
+    await db.user.upsert({
+      where: { clerkId: userId },
+      update: {},
+      create: {
+        clerkId: userId,
+        email: "sync@example.com", // Fallback
+      },
+    });
+
     // Verify ownership
     const doc = await db.document.findUnique({
       where: { id: documentId },
@@ -94,6 +104,16 @@ export async function GET(req: Request) {
     const documentId = searchParams.get("documentId");
 
     if (!documentId) return new NextResponse("Missing documentId", { status: 400 });
+
+    // Ensure user exists in our DB to prevent relation filter issues
+    await db.user.upsert({
+      where: { clerkId: userId },
+      update: {},
+      create: {
+        clerkId: userId,
+        email: "sync@example.com", // Fallback
+      },
+    });
 
     // Verify ownership
     const doc = await db.document.findUnique({
