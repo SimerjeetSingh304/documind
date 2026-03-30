@@ -59,10 +59,10 @@ export default function ChatPage({ params }: ChatPageProps) {
   }, [historyMessages, setMessages, messages.length]);
 
   return (
-    <div className="fixed inset-0 top-16 left-[240px] flex h-[calc(100vh-64px)] overflow-hidden bg-background">
+    <div className="fixed inset-0 top-16 left-[240px] flex h-[calc(100vh-64px)] overflow-hidden bg-transparent">
       <DocumentSidebar documentId={documentId} />
 
-      <main className="flex-1 flex flex-col relative bg-background overflow-hidden">
+      <main className="flex-1 flex flex-col relative bg-[url('/noise.png')] opacity-[0.98] mix-blend-overlay overflow-hidden z-10">
         <ChatMessages
           messages={messages}
           isLoading={isLoading || historyLoading}

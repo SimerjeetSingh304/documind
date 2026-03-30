@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CitationChip } from "./citation-chip";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ChatMessagesProps {
   messages: Message[];
@@ -29,137 +28,139 @@ export function ChatMessages({ messages, isLoading, sources }: ChatMessagesProps
   return (
     <div
       ref={scrollRef}
-      className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-6 scrollbar-hide"
+      className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-8 scrollbar-hide pb-40 relative z-10"
     >
-      <AnimatePresence initial={false}>
+      <div className="max-w-4xl mx-auto space-y-8">
+        <AnimatePresence initial={false}>
 
-        {/* Empty state */}
-        {messages.length === 0 && !isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col items-center justify-center h-full min-h-[40vh] text-center space-y-4"
-          >
-            <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-violet-500/10 ring-1 ring-violet-500/20">
-              <Bot className="w-5 h-5 text-violet-400" />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-semibold text-white/70">Ready to answer</h3>
-              <p className="text-[12px] text-white/30 max-w-xs leading-relaxed">
-                Ask anything about this document. I'll find relevant context and cite my sources.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 pt-1">
-              {["RAG Pipeline", "Streaming", "Citations"].map((tag) => (
-                <span
-                  key={tag}
-                  className="text-[9px] font-semibold uppercase tracking-wider text-white/20 px-2 py-0.5 rounded-md bg-white/[0.04] ring-1 ring-white/[0.06]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {/* Messages */}
-        {messages.map((message, i) => {
-          const isUser = message.role === "user";
-          const isLast = i === messages.length - 1;
-
-          return (
+          {/* Empty state */}
+          {messages.length === 0 && !isLoading && (
             <motion.div
-              key={message.id || i}
-              initial={{ opacity: 0, y: 6 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className={cn(
-                "flex items-start gap-3",
-                isUser ? "flex-row-reverse" : "flex-row"
-              )}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="flex flex-col items-center justify-center h-full min-h-[50vh] text-center space-y-6"
             >
-              {/* Avatar */}
-              <Avatar className={cn(
-                "h-10 w-10 border transition-all duration-500",
-                isUser ? "border-primary/50 shadow-[0_0_15px_rgba(101,99,242,0.2)] bg-primary/10" : "border-white/10 bg-white/5 shadow-sm"
-              )}>
-                {isUser ? (
-                   <>
-                     <AvatarImage src="/avatars/user.png" className="object-cover" />
-                     <AvatarFallback><User className="w-5 h-5 text-primary" /></AvatarFallback>
-                   </>
-                ) : (
-                   <>
-                     <AvatarImage src="/avatars/bot.png" className="object-cover shadow-glow" />
-                     <AvatarFallback><Bot className="w-5 h-5 text-white shadow-glow" /></AvatarFallback>
-                   </>
-                )}
-              </Avatar>
-
-              {/* Bubble + citations */}
-              <div
-                className={cn(
-                  "flex flex-col gap-2 max-w-[80%] sm:max-w-[70%]",
-                  isUser ? "items-end" : "items-start"
-                )}
-              >
-                <div
-                  className={cn(
-                    "px-4 py-3 rounded-2xl text-sm leading-relaxed font-normal transition-colors duration-150",
-                    isUser
-                      ? "bg-violet-500/20 text-white/85 rounded-tr-sm ring-1 ring-violet-500/20"
-                      : "bg-white/[0.04] text-white/70 rounded-tl-sm ring-1 ring-white/[0.06] hover:bg-white/[0.06]"
-                  )}
-                >
-                  {message.content}
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse" />
+                <div className="relative flex items-center justify-center w-16 h-16 rounded-[20px] glass border-white/10 shadow-2xl">
+                   <img src="/avatars/bot.png" className="w-10 h-10 object-cover rounded-lg" />
                 </div>
-
-                {/* Citations */}
-                {!isUser && isLast && sources && sources.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="flex flex-col gap-2"
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black text-white tracking-tight">Intelligence Active</h3>
+                <p className="text-sm text-white/40 max-w-sm leading-relaxed font-medium">
+                  Enter your query. The RAG pipeline will retrieve and cite the exact context you need.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 pt-2">
+                {["Contextually Aware", "Zero-Hallucination"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-bold uppercase tracking-[0.1em] text-white/30 px-3 py-1 rounded-lg glass border-white/5"
                   >
-                    <span className="text-[9px] font-semibold uppercase tracking-widest text-white/20 px-1">
-                      Sources
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {sources.map((source) => (
-                        <CitationChip key={source.id} {...source} />
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
+                    {tag}
+                  </span>
+                ))}
               </div>
             </motion.div>
-          );
-        })}
+          )}
 
-        {/* Typing indicator */}
-        {isLoading && messages[messages.length - 1]?.role === "user" && (
-          <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-start gap-4 animate-reveal"
-          >
-            <Avatar className="h-10 w-10 border border-white/10 bg-white/5 shadow-sm">
-              <AvatarImage src="/avatars/bot.png" className="object-cover shadow-glow" />
-              <AvatarFallback><Bot className="w-5 h-5 text-white shadow-glow" /></AvatarFallback>
-            </Avatar>
-            <div className="glass border-white/5 px-6 py-4 rounded-[28px] rounded-tl-none shadow-xl">
-              <div className="flex gap-1.5 items-center">
-                 <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]" />
-                 <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]" />
-                 <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
+          {/* Messages */}
+          {messages.map((message, i) => {
+            const isUser = message.role === "user";
+            const isLast = i === messages.length - 1;
+
+            return (
+              <motion.div
+                key={message.id || i}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                className="flex items-start gap-5 z-10 w-full"
+              >
+                {/* Avatar */}
+                <div className={cn(
+                  "w-10 h-10 rounded-xl flex items-center justify-center p-0.5 shrink-0 relative mt-0.5",
+                  isUser ? "bg-white/5 border border-white/10" : "bg-primary/10 border border-primary/30"
+                )}>
+                  {!isUser && <div className="absolute inset-0 bg-primary/20 blur-md rounded-xl" />}
+                  <img 
+                     src={isUser ? "/avatars/user.png" : "/avatars/bot.png"} 
+                     className="w-full h-full object-cover rounded-lg z-10" 
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col gap-3 flex-1 min-w-0">
+                  {/* Sender Name */}
+                  <div className="text-xs font-bold uppercase tracking-widest text-white/40">
+                    {isUser ? "You" : "DocuMind"}
+                  </div>
+                  
+                  {/* Bubble / Text Content */}
+                  <div
+                    className={cn(
+                      "text-[15px] leading-relaxed font-medium max-w-full text-left break-words",
+                      isUser
+                        ? "text-white/90"
+                        : "text-white/80"
+                    )}
+                  >
+                    {message.content}
+
+                    {/* Inline Citations for Assistant */}
+                    {!isUser && isLast && sources && sources.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.3, duration: 0.4 }}
+                        className="flex items-center gap-2 mt-5 pt-4 border-t border-white/5 w-full"
+                      >
+                        <span className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em] shrink-0">Citations</span>
+                        <div className="flex flex-wrap gap-1.5 overflow-hidden">
+                          {sources.map((source) => (
+                            <CitationChip key={source.id} {...source} />
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+
+          {/* Typing indicator */}
+          {isLoading && messages[messages.length - 1]?.role === "user" && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-start gap-5 z-10 w-full"
+            >
+              <div className="w-10 h-10 rounded-xl border border-primary/30 bg-primary/10 p-0.5 shrink-0 flex items-center justify-center relative mt-0.5">
+                 <div className="absolute inset-0 bg-primary/20 blur-md rounded-xl" />
+                 <img src="/avatars/bot.png" className="w-full h-full object-cover rounded-lg z-10" />
               </div>
-            </div>
-          </motion.div>
-        )}
+              
+              <div className="flex flex-col gap-3 flex-1">
+                <div className="text-xs font-bold uppercase tracking-widest text-white/40">
+                  DocuMind
+                </div>
+                
+                <div className="text-[15px] py-1 text-white/80">
+                  <div className="flex gap-1.5 items-center">
+                     <div className="w-2 h-2 bg-primary/80 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                     <div className="w-2 h-2 bg-primary/80 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                     <div className="w-2 h-2 bg-primary/80 rounded-full animate-bounce" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
-      </AnimatePresence>
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

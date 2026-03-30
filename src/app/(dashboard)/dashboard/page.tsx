@@ -3,7 +3,6 @@
 import { useDocuments } from "@/hooks/use-documents";
 import {
   FileText,
-  MessageSquare,
   Database,
   ArrowRight,
   Plus,
@@ -17,10 +16,8 @@ import {
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -37,7 +34,7 @@ export default function DashboardPage() {
     1024
   ).toFixed(2);
 
-  const recentDocs = documents.slice(0, 3);
+  const recentDocs = documents.slice(0, 4);
 
   const stats = [
     {
@@ -46,17 +43,19 @@ export default function DashboardPage() {
       icon: FileText,
       accent: "text-violet-400",
       bg: "bg-violet-500/10",
+      glow: "group-hover:bg-violet-500/20",
       ring: "ring-violet-500/15",
-      sub: "total uploaded",
+      sub: "total indexed",
     },
     {
-      label: "Indexed Chunks",
+      label: "Vector Chunks",
       value: totalChunks,
       icon: TrendingUp,
       accent: "text-emerald-400",
       bg: "bg-emerald-500/10",
+      glow: "group-hover:bg-emerald-500/20",
       ring: "ring-emerald-500/15",
-      sub: "vector embeddings",
+      sub: "embeddings active",
     },
     {
       label: "Storage Used",
@@ -64,46 +63,55 @@ export default function DashboardPage() {
       icon: Database,
       accent: "text-amber-400",
       bg: "bg-amber-500/10",
+      glow: "group-hover:bg-amber-500/20",
       ring: "ring-amber-500/15",
-      sub: "cloud optimized",
+      sub: "optimized tier",
     },
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-8 pb-20 space-y-10">
+    <div className="max-w-[1200px] mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       
       {/* Page Header */}
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold text-white/90 tracking-tight">Dashboard</h1>
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <p className="text-[11px] text-white/30 font-medium">Real-time insights active</p>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="space-y-1.5">
+          <h1 className="text-3xl font-black text-white tracking-tight">System Status</h1>
+          <div className="flex items-center gap-2">
+            <span className="flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <p className="text-xs text-white/40 font-semibold tracking-wider uppercase">All pipelines active</p>
+          </div>
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Hero Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="relative rounded-xl bg-white/[0.03] border border-white/[0.06] px-5 py-4 overflow-hidden group hover:border-white/10 transition-all duration-200"
+            className="group relative rounded-[24px] glass border-white/5 px-6 py-6 overflow-hidden hover:border-white/10 hover:-translate-y-1 transition-all duration-300"
           >
-            <div className="flex items-start justify-between">
-              <div className="space-y-3">
-                <p className="text-[10px] font-semibold uppercase tracking-widest text-white/25">
+            {/* Animated Glow Overlay */}
+            <div className={cn("absolute -right-8 -top-8 w-32 h-32 blur-[50px] transition-all duration-500 pointer-events-none opacity-50", stat.bg, stat.glow)} />
+            
+            <div className="flex items-start justify-between relative z-10">
+              <div className="space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
                   {stat.label}
                 </p>
                 {isLoading ? (
-                  <Skeleton className="h-8 w-20 bg-white/5 rounded-lg" />
+                  <Skeleton className="h-10 w-24 bg-white/5 rounded-xl" />
                 ) : (
-                  <p className="text-3xl font-bold text-white/90 tracking-tight">
+                  <p className="text-4xl font-black text-white tracking-tight">
                     {stat.value}
                   </p>
                 )}
-                <p className="text-[10px] text-white/20 font-medium">{stat.sub}</p>
+                <p className="text-[11px] text-white/40 font-medium">{stat.sub}</p>
               </div>
-              <div className={cn("p-2 rounded-lg ring-1", stat.bg, stat.ring)}>
-                <stat.icon className={cn("w-4 h-4", stat.accent)} />
+              <div className={cn("p-3 rounded-2xl ring-1 transition-transform duration-500 group-hover:scale-110", stat.bg, stat.ring)}>
+                <stat.icon className={cn("w-5 h-5", stat.accent)} />
               </div>
             </div>
           </div>
@@ -115,37 +123,36 @@ export default function DashboardPage() {
         
         {/* Recent Documents */}
         <div className="lg:col-span-3 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-1">
             <div className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5 text-white/25" />
-              <h2 className="text-sm font-semibold text-white/60">Recent Documents</h2>
+              <Clock className="w-4 h-4 text-white/30" />
+              <h2 className="text-sm font-bold text-white/70">Recent Indexes</h2>
             </div>
             <button
               onClick={() => router.push("/documents")}
-              className="flex items-center gap-1 text-[11px] font-medium text-violet-400/70 hover:text-violet-400 transition-colors"
+              className="flex items-center gap-1 text-xs font-semibold text-primary/70 hover:text-primary transition-colors group"
             >
               View all
-              <ChevronRight className="w-3 h-3" />
+              <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             {isLoading ? (
-              [...Array(3)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full bg-white/[0.03] rounded-xl" />
+              [...Array(4)].map((_, i) => (
+                <Skeleton key={i} className="h-[76px] w-full bg-white/[0.02] rounded-[20px]" />
               ))
             ) : recentDocs.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 rounded-xl border border-dashed border-white/[0.06] space-y-3">
-                <div className="p-3 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.06]">
-                  <Files className="w-5 h-5 text-white/15" />
+              <div className="flex flex-col items-center justify-center h-64 rounded-[24px] border border-dashed border-white/10 bg-white/[0.01] space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.04] ring-1 ring-white/10 flex items-center justify-center">
+                  <Files className="w-6 h-6 text-white/20" />
                 </div>
-                <p className="text-xs text-white/20 font-medium">No documents yet. Upload a PDF to get started.</p>
+                <p className="text-sm text-white/30 font-medium">Repository empty. Initialize a new document.</p>
                 <Button
-                  size="sm"
                   onClick={() => router.push("/documents")}
-                  className="h-7 text-[11px] bg-violet-500/15 hover:bg-violet-500/25 text-violet-400 border border-violet-500/20 rounded-lg font-medium"
+                  className="bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl font-bold h-10 px-6"
                 >
-                  Upload PDF
+                  Upload First Document
                 </Button>
               </div>
             ) : (
@@ -153,94 +160,99 @@ export default function DashboardPage() {
                 <div
                   key={doc.id}
                   onClick={() => router.push(`/chat/${doc.id}`)}
-                  className="group flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:border-white/10 hover:bg-white/[0.05] transition-all duration-150 cursor-pointer"
+                  className="group flex items-center justify-between px-5 py-4 rounded-[20px] glass border-white/5 hover:border-primary/20 hover:bg-primary/[0.02] transition-all duration-300 cursor-pointer"
                 >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-violet-500/10 ring-1 ring-violet-500/15">
-                      <FileText className="w-3.5 h-3.5 text-violet-400" />
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-white/[0.04] ring-1 ring-white/10 group-hover:bg-primary/10 group-hover:ring-primary/20 transition-all duration-300">
+                      <FileText className="w-4 h-4 text-white/40 group-hover:text-primary transition-colors" />
                     </div>
-                    <div className="min-w-0 space-y-0.5">
-                      <p className="text-sm font-medium text-white/75 truncate max-w-[240px]">
+                    <div className="min-w-0 space-y-1">
+                      <p className="text-sm font-bold text-white/90 truncate max-w-[280px]">
                         {doc.name}
                       </p>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-white/25 font-medium">
+                        <span className="text-[10px] text-white/30 font-medium uppercase tracking-wider">
                           {format(new Date(doc.createdAt), "MMM d, yyyy")}
                         </span>
-                        <span className="text-white/10">·</span>
-                        <span className="text-[10px] font-semibold text-white/20 uppercase tracking-wider">
-                          PDF
+                        <div className="w-1 h-1 rounded-full bg-white/10" />
+                        <span className="text-[10px] font-black text-emerald-400/80 uppercase tracking-widest bg-emerald-500/10 px-1.5 py-0.5 rounded pl-1">
+                          Active
                         </span>
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/15 group-hover:text-violet-400 group-hover:translate-x-0.5 transition-all duration-150 flex-shrink-0" />
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-white/[0.02] group-hover:bg-primary group-hover:text-white text-white/20 transition-all duration-300 transform group-hover:-rotate-45">
+                     <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
               ))
             )}
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="lg:col-span-2 space-y-4">
+        {/* Right Column / Action Bento */}
+        <div className="lg:col-span-2 flex flex-col gap-6">
           
-          {/* Upload CTA */}
+          {/* Upload CTA Card */}
           <div
             onClick={() => router.push("/documents")}
-            className="relative rounded-xl bg-violet-500/10 border border-violet-500/15 p-5 cursor-pointer hover:bg-violet-500/15 transition-all duration-150 overflow-hidden group"
+            className="flex-1 min-h-[160px] relative rounded-[24px] glass-dark border-white/5 p-6 cursor-pointer hover:border-primary/30 transition-all duration-500 overflow-hidden group flex flex-col justify-end"
           >
-            <div className="absolute -bottom-4 -right-4 w-20 h-20 bg-violet-500/20 blur-2xl rounded-full group-hover:bg-violet-500/30 transition-colors" />
-            <div className="relative space-y-2">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-violet-500/20 ring-1 ring-violet-500/25">
-                  <Plus className="w-3.5 h-3.5 text-violet-400" />
-                </div>
-                <h3 className="text-sm font-semibold text-white/80">Upload Document</h3>
+            {/* Immersive Blur */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[60px] group-hover:bg-primary/30 transition-colors duration-700 pointer-events-none" />
+            
+            <div className="relative z-10 flex flex-col min-h-full">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-auto ring-1 ring-primary/20 group-hover:scale-110 group-hover:-rotate-3 transition duration-500">
+                 <Plus className="w-6 h-6 text-primary" />
               </div>
-              <p className="text-[11px] text-white/35 leading-relaxed">
-                Add a new PDF to your library and start chatting with it instantly.
-              </p>
-              <Button
-                size="sm"
-                className="mt-3 h-7 text-[11px] bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 border border-violet-500/20 rounded-lg font-semibold transition-all duration-150"
-              >
-                Quick Upload
-              </Button>
+              <div className="mt-8">
+                 <h3 className="text-xl font-black text-white mb-2 tracking-tight">Deploy Document</h3>
+                 <p className="text-xs text-white/40 leading-relaxed font-medium">
+                   Initialize a new vector search index.
+                 </p>
+              </div>
             </div>
           </div>
 
-          {/* Model Info */}
-          <div className="rounded-xl bg-white/[0.03] border border-white/[0.05] p-5 space-y-4">
-            <div className="flex items-center gap-2">
-              <Zap className="w-3.5 h-3.5 text-white/20" />
-              <h3 className="text-[10px] font-semibold uppercase tracking-widest text-white/25">
-                Active Model
-              </h3>
+          {/* Infrastructure Info */}
+          <div className="relative rounded-[24px] glass border-white/5 p-6 space-y-5 overflow-hidden group hover:border-white/10 transition-all duration-300">
+            <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-indigo-500/10 blur-[50px] pointer-events-none" />
+            
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-white/30" />
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
+                  Infrastructure
+                </h3>
+              </div>
+              <div className="flex items-center gap-1.5 px-2 py-1 rounded bg-emerald-500/10 ring-1 ring-emerald-500/20">
+                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                 <span className="text-[8px] font-bold text-emerald-400 uppercase tracking-widest">Healthy</span>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-violet-500/10 ring-1 ring-violet-500/15">
-                <Bot className="w-4 h-4 text-violet-400" />
+
+            <div className="flex items-center gap-4 bg-white/[0.02] p-3 rounded-[16px]">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/15 ring-1 ring-primary/30 p-0.5">
+                <img src="/avatars/bot.png" alt="Bot" className="w-full h-full object-cover rounded-lg" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white/70">Llama 3 · 70B</p>
-                <p className="text-[10px] text-white/25 font-medium">via Groq Inference</p>
-              </div>
-              <div className="ml-auto flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/15">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[9px] font-semibold text-emerald-400/80">Live</span>
+                <p className="text-sm font-black text-white tracking-tight">Llama 3 · 70B</p>
+                <p className="text-[10px] text-white/30 font-medium">Inference Node active</p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-1 border-t border-white/[0.04]">
-              {["Streaming", "RAG Pipeline", "pgvector"].map((tag) => (
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              {["Flash Attention", "pgvector", "Streaming API"].map((tag) => (
                 <span
                   key={tag}
-                  className="text-[9px] font-semibold uppercase tracking-wider text-white/25 px-2 py-0.5 rounded-md bg-white/[0.04] ring-1 ring-white/[0.06]"
+                  className="text-[9px] font-black uppercase tracking-wider text-white/30 px-2 py-1 rounded-md bg-background/50 ring-1 ring-white/10"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </div>
