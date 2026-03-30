@@ -25,6 +25,28 @@ Chat with your PDFs naturally. An advanced RAG (Retrieval-Augmented Generation) 
 - **Seamless Chat Streaming:** Utilizes the Vercel AI SDK to stream LLM responses in real-time, preventing long loading screens and providing an interactive experience.
 - **Secure Authentication:** Integrated with Clerk to securely manage user accounts, isolated sessions, and document permissions.
 
+---
+
+## 📸 Screenshots
+
+Here is a glimpse of the DocuMind interface in action:
+
+<div align="center">
+
+**1. Dashboard & Document Upload**  
+*(Showcasing the clean, glassmorphism UI and UploadThing integration)*  
+![Dashboard View](https://via.placeholder.com/800x450?text=Upload+Your+Dashboard+Screenshot+Here)  
+*Replace the above image by adding your screenshot to `/public/screenshots/dashboard.png` and updating this markdown link.*
+
+<br>
+
+**2. Intelligent Chat Interface**  
+*(Demonstrating real-time AI streaming and document insight retrieval)*  
+![Chat Interface](https://via.placeholder.com/800x450?text=Upload+Your+Chat+Screenshot+Here)  
+*Replace the above image by adding your screenshot to `/public/screenshots/chat.png` and updating this markdown link.*
+
+</div>
+
 ## 🛠️ Tech Stack
 
 ### Core
