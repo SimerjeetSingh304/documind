@@ -136,8 +136,9 @@ export function Sidebar() {
             <Button
               size="sm"
               className="w-full h-8 text-[11px] font-black bg-white group-hover:bg-primary text-black group-hover:text-white rounded-[10px] transition-all duration-300 active:scale-95"
+              asChild
             >
-              Initialize Pro
+              <Link href="/pricing">Initialize Pro</Link>
             </Button>
           </div>
         </div>
