@@ -16,7 +16,7 @@ export async function GET(req: Request) {
       update: {},
       create: {
         clerkId: userId,
-        email: "sync@example.com", // Fallback
+        email: `${userId}@example.com`, // Fallback with unique ID
       },
     });
 
