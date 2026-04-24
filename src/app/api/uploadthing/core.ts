@@ -2,7 +2,7 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { embedText, chunkText } from "@/lib/rag";
-import pdf from "pdf-parse";
+import { PDFParse as pdf } from "pdf-parse";
 
 const f = createUploadthing();
 
@@ -41,8 +41,9 @@ export const ourFileRouter = {
         if (!response.ok) throw new Error(`Failed to fetch file: ${response.statusText}`);
         const buffer = Buffer.from(await response.arrayBuffer());
 
-        // 3. Extract text from PDF
-        const pdfData = await pdf(buffer);
+        // 3. Extract text from PDF (using the class-based API)
+        const parser = new pdf({ data: buffer });
+        const pdfData = await parser.getText();
         const text = pdfData.text;
 
         // 4. Create Document in DB
