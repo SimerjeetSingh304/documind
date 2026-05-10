@@ -115,10 +115,9 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Upgrade CTA Bento */}
+      {/* Architecture CTA */}
       <div className="p-4 pt-2">
         <div className="relative rounded-[20px] glass-dark border-white/5 p-5 overflow-hidden group hover:border-primary/30 transition-all duration-500 cursor-pointer">
-          {/* Intense Glow Backdrop */}
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-[40px] pointer-events-none group-hover:bg-primary/30 transition-colors duration-700" />
 
           <div className="relative z-10">
@@ -126,11 +125,11 @@ export function Sidebar() {
               <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary/20 ring-1 ring-primary/30 shadow-[0_0_15px_rgba(101,99,242,0.4)] group-hover:scale-110 group-hover:-rotate-6 transition-all duration-300">
                 <Zap className="w-3.5 h-3.5 text-white animate-pulse" />
               </div>
-              <p className="text-sm font-black tracking-tight text-white group-hover:text-primary transition-colors">Upgrade to Pro</p>
+              <p className="text-sm font-black tracking-tight text-white group-hover:text-primary transition-colors">System Architecture</p>
             </div>
             
             <p className="text-[10px] font-medium text-white/40 mb-4 leading-relaxed pr-2">
-              Unlock unbounded inference limits and priority GPU access.
+              RAG pipeline · pgvector · Gemini 2.5 Flash · full tech stack.
             </p>
             
             <Button
@@ -138,7 +137,7 @@ export function Sidebar() {
               className="w-full h-8 text-[11px] font-black bg-white group-hover:bg-primary text-black group-hover:text-white rounded-[10px] transition-all duration-300 active:scale-95"
               asChild
             >
-              <Link href="/pricing">Initialize Pro</Link>
+              <Link href="/pricing">View Architecture</Link>
             </Button>
           </div>
         </div>

@@ -57,11 +57,11 @@ export default async function SettingsPage() {
              <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                    <span className="text-[#64748B]">Embedding Model</span>
-                   <span className="text-[#F1F5F9]">text-embedding-004</span>
+                   <span className="text-[#F1F5F9]">gemini-embedding-001</span>
                 </div>
                 <div className="flex justify-between text-sm">
                    <span className="text-[#64748B]">Inference Model</span>
-                   <span className="text-[#F1F5F9]">llama3-70b-8192</span>
+                   <span className="text-[#F1F5F9]">gemini-2.5-flash</span>
                 </div>
                 <div className="flex justify-between text-sm">
                    <span className="text-[#64748B]">Max File Size</span>
