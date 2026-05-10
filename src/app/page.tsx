@@ -46,7 +46,7 @@ export default function Home() {
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-dark border-white/10 text-[10px] uppercase font-black tracking-[0.2em] text-primary mb-2 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Zap className="w-3 h-3 fill-current" />
-            Protocol Online: Llama-3-70b
+            Protocol Online: Gemini-2.5-Flash
           </div>
           
           <h1 className="text-5xl md:text-7xl lg:text-[80px] font-black tracking-tight text-white leading-[1.05] animate-reveal">
